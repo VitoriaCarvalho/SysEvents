@@ -5,17 +5,60 @@
  */
 package cliente;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vitoria
  */
 public class TelaExcluirEvento extends javax.swing.JFrame {
 
+    private static Socket socket;
     /**
      * Creates new form TelaExcluirEvento
      */
     public TelaExcluirEvento() {
         initComponents();
+        try{
+            InetAddress iAddress = InetAddress.getByName("localhost");
+            socket = new Socket(iAddress, 12345);
+            OutputStream os = socket.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+            bw.write("BuscarEventos\n");
+            bw.flush();
+
+            InputStream is = socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String result = br.readLine(); //Retorna os eventos, ex: codEvento,titulo,dataEvento,valorInscricao,descricao+...+\n
+            
+            jTextArea1.setText("");
+            if(!result.equals("@")) {
+                jTextArea1.setText(String.format("%-35s", "CÓDIGO") + String.format("%-35s", "TÍTULO") + String.format("%-35s", "DATA") + String.format("%-35s", "VALOR") + String.format("%-35s", "DESCRIÇÃO") + "\n");
+                System.out.println(result);
+                String[] eventos = result.split("%");
+                System.out.println(eventos[0]);
+                for(int i = 0; i < (eventos.length - 1); i++) {
+                    String[] e = eventos[i].split(",");
+                    jTextArea1.setText(jTextArea1.getText() + (String.format("%-32s", e[0]) + String.format("%-32s", e[1]) + String.format("%-32s", e[2]) + String.format("%-32s", e[3]) + String.format("%-32s", e[4]) + "\n"));
+                }
+                result = null;
+            } else {
+                jTextArea1.setText("------------ Não há eventos cadastrados ------------");
+            }
+        } catch (Exception ex){
+            System.out.println("HelloClient exception: "+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -48,6 +91,11 @@ public class TelaExcluirEvento extends javax.swing.JFrame {
         jLabel5.setText("Informe um código de evento para deletá-lo:");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-lixo-26.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
         jSeparator1.setForeground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
@@ -132,6 +180,42 @@ public class TelaExcluirEvento extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // EXCLUIR EVENTO
+        if(jTextField1.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Campo obrigatório!");
+        } else {
+            try{
+                InetAddress iAddress = InetAddress.getByName("localhost");
+                socket = new Socket(iAddress, 12345);
+                OutputStream os = socket.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write("ExcluirEvento>" + jTextField1.getText() + "\n");
+                bw.flush();
+
+                InputStream is = socket.getInputStream();
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
+                String result = br.readLine(); //Retorna true ou false;
+                jTextField1.setText("");
+
+                if(!result.equals("@")) {
+                    JOptionPane.showMessageDialog(null, "Evento removido com sucesso!");
+                    result = null;
+                    TelaHomeAdm hd = new TelaHomeAdm();
+                    hd.setVisible(true);
+                    setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Exclusão mal sucedida!");
+                }
+            } catch (Exception ex){
+                System.out.println("HelloClient exception: "+ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

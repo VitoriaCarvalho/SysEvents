@@ -78,4 +78,35 @@ public class Gerenciamento {
         }
     }
     
+    public String BuscarInscritos(String codEvento) throws IOException, SQLException {
+        InscricoesDAO id = new InscricoesDAO();
+        String result = id.buscarInscritos(codEvento);
+        System.out.println("Chegou no gerenciamento: " + result);
+        if(result != null) {
+            return result + "\n";
+        } else {
+            return "@\n";
+        }
+    }
+    
+    public String ExcluirEvento(String codEvento) throws IOException, SQLException {
+        EventosDAO ed = new EventosDAO();
+        String result = ed.excluirEvento(codEvento);
+        if(result != null) {
+            return result + "\n";
+        } else {
+            return "@\n";
+        }
+    }
+    
+    public String EditarEvento(String dados) throws IOException, SQLException {
+        EventosDAO ed = new EventosDAO();
+        String result = ed.editarEvento(dados);
+        if(result != null) {
+            return result + "\n";
+        } else {
+            return "@\n";
+        }
+    }
+    
 }

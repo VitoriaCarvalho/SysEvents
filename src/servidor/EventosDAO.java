@@ -85,4 +85,59 @@ public class EventosDAO {
         
         return result;
     }
+    
+    public String excluirMinicursos(String codEvento) throws SQLException {
+        // Prepared statement para a exclusão
+        String sql = "delete from minicursos where codEvento = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        stmt.setString(1, codEvento);
+        
+        // Executa a Query
+        int executeUpdate = stmt.executeUpdate();
+        
+        if (executeUpdate == 0) return "false";
+        else return "true";
+    }
+    
+    public String excluirEvento(String codEvento) throws SQLException {
+        if(excluirMinicursos(codEvento).equals("true")) {
+            // Prepared statement para a exclusão
+            String sql = "delete from eventos where codEvento = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, codEvento);
+
+            // Executa a Query
+            int executeUpdate = stmt.executeUpdate();
+
+            if (executeUpdate == 0) return "false";
+            else return "true";
+        } else {
+            return null;
+        }
+    }
+    
+    public String editarEvento(String texto) throws SQLException {
+        //texto = codEvento,titulo,dataEvento,valorInscricao,descricao
+        String[] dados = texto.split(",");
+        System.out.println("TEXTO: " + texto);
+        
+        // Prepared statement para a exclusão
+        //UPDATE `members` SET `full_names` = 'Janet Smith Jones', `physical_address` = 'Melrose 123' WHERE `membership_number` = 2;
+        String sql = "update eventos set titulo = ?, dataEvento = ?, valorInscricao = ?, descricao = ? where codEvento = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+
+        stmt.setString(1, dados[1]);
+        stmt.setString(2, dados[2]);
+        stmt.setString(3, dados[3]);
+        stmt.setString(4, dados[4]);
+        stmt.setString(5, dados[0]);
+
+        // Executa a Query
+        int executeUpdate = stmt.executeUpdate();
+
+        if (executeUpdate == 0) return "false";
+        else return "true";
+    }
 }

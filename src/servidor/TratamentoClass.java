@@ -77,37 +77,37 @@ public class TratamentoClass implements Runnable {
                 System.out.println(returnMessage);
                 bw.flush();
             
-            }
-            
-            /*if (dados.charAt(0) == 'C') {
-                hello.Cadastrar(dados);
-                System.out.println("Cadastrando");
-            } else if (dados.charAt(0) == 'V') {
-                System.out.println(dados);
-                hello.Venda(dados);
-                System.out.println("Registrando a venda");
-            } else if (dados.charAt(0) == 'B') {
-                System.out.println("Estou buscando!");
-                returnMessage = hello.Busca(dados);
+            } else if(dados.split(">")[0].equals("BuscarInscritos")) {
+                returnMessage = g.BuscarInscritos(dados.split(">")[1]);
+                System.out.println("Buscando inscritos do evento " + dados.split(">")[1] + "...");
                 OutputStream os = cliente.getOutputStream();
                 OutputStreamWriter osw = new OutputStreamWriter(os);
                 BufferedWriter bw = new BufferedWriter(osw);
                 bw.write(returnMessage);
                 System.out.println(returnMessage);
                 bw.flush();
-            } else if (dados.charAt(0) == 'R') {
-                returnMessage = hello.Remover(dados);
+                
+            } else if(dados.split(">")[0].equals("ExcluirEvento")) {
+                returnMessage = g.ExcluirEvento(dados.split(">")[1]);
+                System.out.println("Excluindo evento " + dados.split(">")[1] + "...");
                 OutputStream os = cliente.getOutputStream();
                 OutputStreamWriter osw = new OutputStreamWriter(os);
                 BufferedWriter bw = new BufferedWriter(osw);
                 bw.write(returnMessage);
+                System.out.println(returnMessage);
                 bw.flush();
-            } else if (dados.charAt(0) == 'D') {
-                String[] dado = dados.split("/")[1].split(":");
-                System.out.println("Diminuindo do cod " + dado[0]);
-                hello.diminuirNoEstoque(dado[0], Integer.parseInt(dado[1]));
-                System.out.println("Diminuido do cod " + dado[0]);
-            }*/
+                
+            } else if(dados.split(">")[0].equals("EditarEvento")) {
+                returnMessage = g.EditarEvento(dados.split(">")[1]);
+                System.out.println("Editando evento " + dados.split(">")[1] + "...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println(returnMessage);
+                bw.flush();
+                
+            }
             cliente.close();
         } catch (Exception e) {
             e.printStackTrace();

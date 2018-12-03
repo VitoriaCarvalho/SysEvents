@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 public class TelaVerEventosAdm extends javax.swing.JFrame {
 
     private static Socket socket;
+    public static String campo;
     /**
      * Creates new form TelaVerEventosAdm
      */
@@ -48,7 +49,7 @@ public class TelaVerEventosAdm extends javax.swing.JFrame {
                 System.out.println(result);
                 String[] eventos = result.split("%");
                 System.out.println(eventos[0]);
-                for(int i = 0; i < (eventos.length - 1); i++) {
+                for(int i = 0; i < (eventos.length); i++) {
                     String[] e = eventos[i].split(",");
                     jTextArea1.setText(jTextArea1.getText() + (String.format("%-32s", e[0]) + String.format("%-32s", e[1]) + String.format("%-32s", e[2]) + String.format("%-32s", e[3]) + String.format("%-32s", e[4]) + "\n"));
                 }
@@ -75,7 +76,7 @@ public class TelaVerEventosAdm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        inputCodEvento = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jButton2 = new javax.swing.JButton();
@@ -95,6 +96,11 @@ public class TelaVerEventosAdm extends javax.swing.JFrame {
         jLabel5.setText("Informe um código de evento para visualizar os inscritos:");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-pesquisar-26.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
         jSeparator1.setForeground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
@@ -138,7 +144,7 @@ public class TelaVerEventosAdm extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputCodEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton1))))
                 .addGap(75, 75, 75))
@@ -160,12 +166,12 @@ public class TelaVerEventosAdm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(inputCodEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(2, 2, 2))
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(27, 27, 27)
+                .addGap(31, 31, 31)
                 .addComponent(jButton2)
-                .addGap(27, 27, 27))
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -173,7 +179,22 @@ public class TelaVerEventosAdm extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        TelaHomeAdm hd = new TelaHomeAdm();
+        hd.setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Visualizar inscritos
+        if(inputCodEvento.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Campo obrigatório!");
+        } else {
+            campo = inputCodEvento.getText();
+            TelaVisualizarInscritos vi = new TelaVisualizarInscritos();
+            vi.setVisible(true);
+            setVisible(false);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     
     /**
@@ -212,6 +233,7 @@ public class TelaVerEventosAdm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField inputCodEvento;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -221,6 +243,5 @@ public class TelaVerEventosAdm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
