@@ -183,9 +183,9 @@ public class Gerenciamento {
     
         //dados: codInscricao,cpfParticipante
         MinicursosDAO md = new MinicursosDAO();
-        String codInscricao = dados.split(",")[0];
+        String codEvento = dados.split(",")[0];
         String cpfParticipante = dados.split(",")[1];
-        String result = md.buscarMinicursosEscolhidos(codInscricao, cpfParticipante);
+        String result = md.buscarMinicursosEscolhidos(codEvento, cpfParticipante);
         if(result != null) {
             return result + "\n";
         } else {
@@ -193,5 +193,46 @@ public class Gerenciamento {
         }
     }
     
+    public String BuscarMeuPerfil(String email) throws IOException, SQLException {
+        UsuariosDAO ud = new UsuariosDAO();
+        String result = ud.buscarMeuPerfil(email);
+        if(result != null) {
+            return result + "\n";
+        } else {
+            return "@\n";
+        }
+    }
+    
+    public String ExcluirUsuario(String cpf) throws IOException, SQLException {
+        UsuariosDAO ud = new UsuariosDAO();
+        String result = ud.excluirUsuario(cpf);
+        if(result != null) {
+            return result + "\n";
+        } else {
+            return "@\n";
+        }
+    }
+    
+    public String EditarPerfil(String dados) throws IOException, SQLException {
+        //dados: cpf,nome,email,dataNasc,endereco
+        UsuariosDAO ud = new UsuariosDAO();
+        String result = ud.editarPerfil(dados);
+        if(result != null) {
+            return result + "\n";
+        } else {
+            return "@\n";
+        }
+    }
+    
+    public String VerificarSeJaSeInscreveu(String dados) throws IOException, SQLException {
+        //dados: codEvento,email
+        InscricoesDAO id = new InscricoesDAO();
+        String result = id.verificarSeJaSeInscreveu(dados);
+        if(result != null) {
+            return result + "\n";
+        } else {
+            return "@\n";
+        }
+    }
     
 }

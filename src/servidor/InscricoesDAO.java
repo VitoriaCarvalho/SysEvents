@@ -136,4 +136,28 @@ public class InscricoesDAO {
         String result = recuperarInfoEventoInscrito(codInscricao) + "," + ud.buscarDadosParaInscricao(email);
         return result;
     }
+    
+    public String verificarSeJaSeInscreveu(String texto) throws SQLException {
+        //texto = codEvento,email
+        // Consertar consulta
+        String[] dados = texto.split(",");
+        
+        String sql = "select * from inscricoes inner join (select cpf from usuarios where email = ?) as u on inscricoes.cpfParticipante = u.cpf where codEvento = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+
+        stmt.setString(1, dados[1]);
+        stmt.setString(2, dados[0]);
+
+        // Executa a Query
+        ResultSet rs = stmt.executeQuery();
+        
+        // Extração dos dados resultantes da Query
+        boolean first = rs.first();
+        
+        if (first) {
+            return "true";
+        } else {
+            return "false";
+        }
+    }
 }

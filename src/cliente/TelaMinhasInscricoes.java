@@ -45,13 +45,17 @@ public class TelaMinhasInscricoes extends javax.swing.JFrame {
             jTextArea1.setText("");
             jTextField1.setText("");
             if(!result.equals("@")) {
-                String[] dados = result.split("%");
-                jTextArea1.setText("Código\tEvento\tData\tValor da inscrição\n");
-                for(String i: dados) {
-                    String[] insc = i.split(",");
-                    jTextArea1.setText(jTextArea1.getText() + insc[0] + "\t" + insc[1] + "\t" + insc[2] + "\t" + insc[3] + "\n");
+                if(!result.equals("")) {
+                    String[] dados = result.split("%");
+                    jTextArea1.setText("Código\tEvento\tData\tValor da inscrição\n");
+                    for(String i: dados) {
+                        String[] insc = i.split(",");
+                        jTextArea1.setText(jTextArea1.getText() + insc[0] + "\t" + insc[1] + "\t" + insc[2] + "\t" + insc[3] + "\n");
+                    }
+                    result = null;
+                } else {
+                    jTextArea1.setText("Você ainda não possui inscriçoes!");
                 }
-                result = null;
             } else {
                 JOptionPane.showMessageDialog(null, "Código inexistente!");
                 TelaEventosDisponiveis ed = new TelaEventosDisponiveis();

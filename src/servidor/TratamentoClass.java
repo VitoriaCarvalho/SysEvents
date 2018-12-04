@@ -182,6 +182,47 @@ public class TratamentoClass implements Runnable {
                 System.out.println("ReturnMessage:: " + returnMessage);
                 bw.flush();
             
+            } else if(dados.split(">")[0].equals("BuscarMeuPerfil")) {
+                returnMessage = g.BuscarMeuPerfil(dados.split(">")[1]);
+                System.out.println("Buscando meu perfil...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.flush();
+            
+            } else if(dados.split(">")[0].equals("ExcluirUsuario")) {
+                returnMessage = g.ExcluirUsuario(dados.split(">")[1]);
+                System.out.println("Excluindo conta do cpf " + dados.split(">")[1] + "...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println(returnMessage);
+                bw.flush();
+                
+            } else if(dados.split(">")[0].equals("EditarPerfil")) {
+                returnMessage = g.EditarPerfil(dados.split(">")[1]);
+                //dados[1]: cpf,nome,email,dataNasc,endereco
+                System.out.println("Editando perfil...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                bw.flush();
+   
+            } else if(dados.split(">")[0].equals("VerificarSeJaSeInscreveu")) {
+                returnMessage = g.VerificarSeJaSeInscreveu(dados.split(">")[1]);
+                //dados[1]: codEvento,email
+                System.out.println("Verificando se já se inscreveu no evento...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.write(returnMessage);
+                bw.flush();
+                
             }
             cliente.close();
         } catch (Exception e) {

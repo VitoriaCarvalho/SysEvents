@@ -4,14 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/servidor/Gerenciamento.java</file>
-            <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/servidor/UsuariosDAO.java</file>
-            <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/cliente/TelaLogin.java</file>
             <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/cliente/TelaMinhasInscricoes.java</file>
             <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/cliente/TelaInscricao.java</file>
+            <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/cliente/TelaLogin.java</file>
             <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/servidor/Server.java</file>
-            <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/servidor/InscricoesDAO.java</file>
-            <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/cliente/TelaHomeUsuario.java</file>
             <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/servidor/TratamentoClass.java</file>
+            <file>file:/home/vitoria/NetBeansProjects/SysEvents/src/servidor/MinicursosDAO.java</file>
         </group>
     </open-files>
 </project-private>

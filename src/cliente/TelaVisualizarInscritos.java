@@ -125,7 +125,7 @@ public class TelaVisualizarInscritos extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(17, 17, 17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelInscritosDoEvento))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32))

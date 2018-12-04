@@ -123,7 +123,7 @@ public class EventosDAO {
         String[] dados = texto.split(",");
         System.out.println("TEXTO: " + texto);
         
-        // Prepared statement para a exclusão
+        // Prepared statement para a atualização
         //UPDATE `members` SET `full_names` = 'Janet Smith Jones', `physical_address` = 'Melrose 123' WHERE `membership_number` = 2;
         String sql = "update eventos set titulo = ?, dataEvento = ?, valorInscricao = ?, descricao = ? where codEvento = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);

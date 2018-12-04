@@ -55,7 +55,7 @@ public class TelaInscricao extends javax.swing.JFrame {
                 labelCpfInscricao.setText(dados[5]);
                 labelEmailInscricao.setText(dados[6]);
                 labelDataNascInscricao.setText(dados[7]);
-                this.descMinicursos(TelaMinhasInscricoes.campoCodEvento, labelCpfInscricao.getText());
+                this.descMinicursos(dados[0], labelCpfInscricao.getText());
                 result = null;
             } else {
                 JOptionPane.showMessageDialog(null, "Código inexistente!");
@@ -295,7 +295,7 @@ public class TelaInscricao extends javax.swing.JFrame {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String result = br.readLine(); //Retorna vários: tituloMinicurso,dataMinicurso
-            textAreaMinicursosEscolhidos.setText("TÍTULO\tDATA\n");
+            textAreaMinicursosEscolhidos.setText("TÍTULO\t\tDATA\n");
             if(!result.equals("@")) {
                 String[] dados = result.split("%");
                 for(String i: dados) {

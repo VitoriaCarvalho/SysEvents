@@ -232,9 +232,36 @@ public class TelaEvento extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        TelaRealizarInscricao ri = new TelaRealizarInscricao();
-        ri.setVisible(true);
-        setVisible(false);
+        try{
+            InetAddress iAddress = InetAddress.getByName("localhost");
+            socket = new Socket(iAddress, 12345);
+            OutputStream os = socket.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+            bw.write("VerificarSeJaSeInscreveu>" + TelaEventosDisponiveis.campo + "," + TelaLogin.campoEmail + "\n");
+            bw.flush();
+
+            InputStream is = socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String result = br.readLine(); //Retorna true, false ou @
+            
+            if(!result.equals("@")) {
+                if(result.equals("true")) {
+                    JOptionPane.showMessageDialog(null, "Você já se inscreveu neste evento!");
+                } else {
+                    TelaRealizarInscricao ri = new TelaRealizarInscricao();
+                    ri.setVisible(true);
+                    setVisible(false);
+                }
+                result = null;
+            } else {
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro. Tente novamente!");
+            }
+        } catch (Exception ex){
+            System.out.println("HelloClient exception: "+ex.getMessage());
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

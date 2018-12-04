@@ -52,22 +52,22 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="textFieldEnderecoEditar" max="32767" attributes="0"/>
+                              <Component id="inputEndereco" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                              <Component id="textFieldEmailEditar" max="32767" attributes="0"/>
+                              <Component id="inputEmail" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                              <Component id="textFieldDataNascEditar" max="32767" attributes="0"/>
+                              <Component id="inputDataNasc" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="textFieldNomeEditar" min="-2" pref="355" max="-2" attributes="0"/>
+                              <Component id="inputNome" min="-2" pref="355" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="125" max="-2" attributes="0"/>
@@ -91,22 +91,22 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="textFieldNomeEditar" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="inputNome" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textFieldEmailEditar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="inputEmail" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textFieldDataNascEditar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="inputDataNasc" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textFieldEnderecoEditar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="inputEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="40" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -175,16 +175,16 @@
         <Property name="text" type="java.lang.String" value="Email:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="textFieldNomeEditar">
+    <Component class="javax.swing.JTextField" name="inputNome">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldNomeEditarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputNomeActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="textFieldEnderecoEditar">
+    <Component class="javax.swing.JTextField" name="inputEndereco">
     </Component>
-    <Component class="javax.swing.JTextField" name="textFieldEmailEditar">
+    <Component class="javax.swing.JTextField" name="inputEmail">
     </Component>
-    <Component class="javax.swing.JTextField" name="textFieldDataNascEditar">
+    <Component class="javax.swing.JTextField" name="inputDataNasc">
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
@@ -193,6 +193,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Voltar ao menu inicial"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
@@ -201,6 +204,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Salvar atualiza&#xe7;&#xf5;es"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

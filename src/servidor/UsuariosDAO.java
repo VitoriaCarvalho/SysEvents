@@ -123,4 +123,64 @@ public class UsuariosDAO {
             return null;
         }
     }
+    
+    public String buscarMeuPerfil(String email) throws SQLException {
+        // Prepared statement para seleção
+        String sql = "select * from usuarios where email = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        // Seta o valor da busca
+        stmt.setString(1, email);
+        
+        // Executa a Query
+        ResultSet rs = stmt.executeQuery();
+        
+        // Extração dos dados resultantes da Query
+        boolean first = rs.first();
+        
+        if (first) {
+            // Retorna o resultado da extração de dados da query
+            //nome,cpf,dataNasc,email,endereco
+            String result = rs.getString("nome") + "," + rs.getString("cpf") + "," + rs.getString("dataNasc") + "," + rs.getString("email") + "," + rs.getString("endereco");
+            return result;
+        } else {
+            return null;
+        }
+    }
+    
+    public String excluirUsuario(String cpf) throws SQLException {
+        // Prepared statement para a exclusão
+        String sql = "delete from usuarios where cpf = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+
+        stmt.setString(1, cpf);
+
+        // Executa a Query
+        int executeUpdate = stmt.executeUpdate();
+
+        if (executeUpdate == 0) return "false";
+        else return "true";
+    }
+    
+    public String editarPerfil(String texto) throws SQLException {
+        //texto = cpf,nome,email,dataNasc,endereco
+        String[] dados = texto.split(",");
+        
+        // Prepared statement para a atualização
+        //UPDATE `members` SET `full_names` = 'Janet Smith Jones', `physical_address` = 'Melrose 123' WHERE `membership_number` = 2;
+        String sql = "update usuarios set nome = ?, email = ?, dataNasc = ?, endereco = ? where cpf = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+
+        stmt.setString(1, dados[1]);
+        stmt.setString(2, dados[2]);
+        stmt.setString(3, dados[3]);
+        stmt.setString(4, dados[4]);
+        stmt.setString(5, dados[0]);
+
+        // Executa a Query
+        int executeUpdate = stmt.executeUpdate();
+
+        if (executeUpdate == 0) return "false";
+        else return "true";
+    }
 }

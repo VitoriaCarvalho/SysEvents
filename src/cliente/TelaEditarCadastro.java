@@ -5,12 +5,23 @@
  */
 package cliente;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vitoria
  */
 public class TelaEditarCadastro extends javax.swing.JFrame {
 
+    private static Socket socket;
     /**
      * Creates new form TelaEditarCadastro
      */
@@ -37,10 +48,10 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        textFieldNomeEditar = new javax.swing.JTextField();
-        textFieldEnderecoEditar = new javax.swing.JTextField();
-        textFieldEmailEditar = new javax.swing.JTextField();
-        textFieldDataNascEditar = new javax.swing.JTextField();
+        inputNome = new javax.swing.JTextField();
+        inputEndereco = new javax.swing.JTextField();
+        inputEmail = new javax.swing.JTextField();
+        inputDataNasc = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -67,17 +78,27 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
 
         jLabel9.setText("Email:");
 
-        textFieldNomeEditar.addActionListener(new java.awt.event.ActionListener() {
+        inputNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldNomeEditarActionPerformed(evt);
+                inputNomeActionPerformed(evt);
             }
         });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-sair-26.png"))); // NOI18N
         jButton3.setText("Voltar ao menu inicial");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-selecionado-26.png"))); // NOI18N
         jButton2.setText("Salvar atualizações");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,19 +126,19 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textFieldEnderecoEditar))
+                                .addComponent(inputEndereco))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(23, 23, 23)
-                                .addComponent(textFieldEmailEditar))
+                                .addComponent(inputEmail))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(14, 14, 14)
-                                .addComponent(textFieldDataNascEditar))
+                                .addComponent(inputDataNasc))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(textFieldNomeEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(125, 125, 125))))
         );
         layout.setVerticalGroup(
@@ -134,19 +155,19 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(textFieldNomeEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(textFieldEmailEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(textFieldDataNascEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(textFieldEnderecoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
@@ -157,9 +178,58 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textFieldNomeEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldNomeEditarActionPerformed
+    private void inputNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldNomeEditarActionPerformed
+    }//GEN-LAST:event_inputNomeActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if(inputDataNasc.getText().equals("") || inputEmail.getText().equals("") || inputEndereco.getText().equals("") || inputNome.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+        } else {
+            try{
+                InetAddress iAddress = InetAddress.getByName("localhost");
+                socket = new Socket(iAddress, 12345);
+                OutputStream os = socket.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write("EditarPerfil>" + TelaMeuPerfil.campoCpf + "," + inputNome.getText() + "," + inputEmail.getText() + "," + inputDataNasc.getText() + "," + inputEndereco.getText() + "\n");
+                bw.flush();
+                //Atributos a editar: nome,email,dataNas,endereco
+                //Dados enviados pelo socket: cpf,nome,email,dataNas,endereco
+
+                InputStream is = socket.getInputStream();
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
+                String result = br.readLine(); //Retorna true ou false;
+
+                if(!result.equals("@") && !(result.equals("false"))) {
+                    JOptionPane.showMessageDialog(null, "Dados atualizados!");
+                    TelaLogin.campoEmail = inputEmail.getText();
+                    result = null;
+                    TelaMeuPerfil mp = new TelaMeuPerfil();
+                    mp.setVisible(true);
+                    setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Edição mal sucedida!");
+                }
+            } catch (Exception ex){
+                System.out.println("HelloClient exception: "+ex.getMessage());
+                ex.printStackTrace();
+            }
+            inputDataNasc.setText("");
+            inputEmail.setText("");
+            inputEndereco.setText("");
+            inputNome.setText("");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        TelaHomeUsuario hu = new TelaHomeUsuario();
+        hu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,6 +267,10 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField inputDataNasc;
+    private javax.swing.JTextField inputEmail;
+    private javax.swing.JTextField inputEndereco;
+    private javax.swing.JTextField inputNome;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JDesktopPane jDesktopPane1;
@@ -209,9 +283,5 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField textFieldDataNascEditar;
-    private javax.swing.JTextField textFieldEmailEditar;
-    private javax.swing.JTextField textFieldEnderecoEditar;
-    private javax.swing.JTextField textFieldNomeEditar;
     // End of variables declaration//GEN-END:variables
 }
