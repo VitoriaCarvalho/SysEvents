@@ -126,7 +126,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Informe um c&#xf3;digo de evento para delet&#xe1;-lo:"/>
+        <Property name="text" type="java.lang.String" value="Informe um c&#xf3;digo de evento para edit&#xe1;-lo:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField1">

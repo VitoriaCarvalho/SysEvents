@@ -1,5 +1,15 @@
 package cliente;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,12 +21,47 @@ package cliente;
  * @author vitoria
  */
 public class TelaMinhasInscricoes extends javax.swing.JFrame {
-
+    
+    private static Socket socket;
+    public static String campoCodEvento;
     /**
      * Creates new form TelaMinhasInscricoes
      */
     public TelaMinhasInscricoes() {
         initComponents();
+        try{
+            InetAddress iAddress = InetAddress.getByName("localhost");
+            socket = new Socket(iAddress, 12345);
+            OutputStream os = socket.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+            bw.write("BuscarMinhasInscricoes>" + TelaLogin.campoEmail + "\n");
+            bw.flush();
+
+            InputStream is = socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String result = br.readLine(); //Retorna: codInscricao,tituloEvento,dataEvento,valorInscricao%...%
+            jTextArea1.setText("");
+            jTextField1.setText("");
+            if(!result.equals("@")) {
+                String[] dados = result.split("%");
+                jTextArea1.setText("Código\tEvento\tData\tValor da inscrição\n");
+                for(String i: dados) {
+                    String[] insc = i.split(",");
+                    jTextArea1.setText(jTextArea1.getText() + insc[0] + "\t" + insc[1] + "\t" + insc[2] + "\t" + insc[3] + "\n");
+                }
+                result = null;
+            } else {
+                JOptionPane.showMessageDialog(null, "Código inexistente!");
+                TelaEventosDisponiveis ed = new TelaEventosDisponiveis();
+                setVisible(false);
+                ed.setVisible(true);
+            }
+        } catch (Exception ex){
+            System.out.println("HelloClient exception: "+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -62,7 +107,7 @@ public class TelaMinhasInscricoes extends javax.swing.JFrame {
 
         jLabel5.setText("Informe um código de inscrição para ver mais informações:");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sysevents/icons8-sair-26.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-sair-26.png"))); // NOI18N
         jButton2.setText("Voltar ao menu incial");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +115,12 @@ public class TelaMinhasInscricoes extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sysevents/icons8-pesquisar-26.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-pesquisar-26.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,14 +130,15 @@ public class TelaMinhasInscricoes extends javax.swing.JFrame {
                 .addGap(0, 72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addGap(18, 18, 18)
-                            .addComponent(jTextField1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton1))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)))
                 .addGap(49, 49, 49))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +186,22 @@ public class TelaMinhasInscricoes extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        TelaHomeUsuario hu = new TelaHomeUsuario();
+        hu.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(jTextField1.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Preencha o campo!");
+        } else {
+            campoCodEvento = jTextField1.getText();
+            TelaInscricao ti = new TelaInscricao();
+            ti.setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

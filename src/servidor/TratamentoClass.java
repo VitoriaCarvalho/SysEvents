@@ -107,6 +107,81 @@ public class TratamentoClass implements Runnable {
                 System.out.println(returnMessage);
                 bw.flush();
                 
+            } else if(dados.split(">")[0].equals("BuscarUmEvento")) {
+                returnMessage = g.BuscarUmEvento(dados.split(">")[1]);
+                System.out.println("Buscando evento " + dados.split(">")[1] + "...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println(returnMessage);
+                bw.flush();
+            
+            } else if(dados.split(">")[0].equals("BuscarDadosEventoUsuario")) {
+                returnMessage = g.BuscarDadosEventoUsuario(dados.split(">")[1]);
+                System.out.println("Buscando dados para inscrição no evento " + dados.split(">")[1] + "...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.flush();
+            
+            } else if(dados.split(">")[0].equals("BuscarMinicursoDeEvento")) {
+                returnMessage = g.BuscarMinicursoDeEvento(dados.split(">")[1]);
+                System.out.println("Buscando minicursos do evento " + dados.split(">")[1] + "...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.flush();
+            
+            } else if(dados.split(">")[0].equals("AdicionarMinicurso")) {
+                returnMessage = g.adicionarMinicurso(dados.split(">")[1]);
+                System.out.println("Adicionando minicurso... " + dados.split(">")[1]);
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.flush();
+            
+            } else if(dados.split(">")[0].equals("AdicionarInscricao")) {
+                System.out.println(dados.split(">")[1]);
+                g.AdicionarInscricao(dados.split(">")[1]);
+                System.out.println("Cadastrando uma inscricao...");
+            
+            } else if(dados.split(">")[0].equals("BuscarMinhasInscricoes")) {
+                returnMessage = g.BuscarMinhasInscricoes(dados.split(">")[1]);
+                System.out.println("Buscando minhas inscrições...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.flush();
+            
+            } else if(dados.split(">")[0].equals("BuscarDadosMinhaInscricao")) {
+                returnMessage = g.BuscarDadosMinhaInscricao(dados.split(">")[1]);
+                System.out.println("Buscando minhas inscrições...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.flush();
+            
+            } else if(dados.split(">")[0].equals("BuscarDescMinicursos")) {
+                returnMessage = g.BuscarDescMinicursos(dados.split(">")[1]);
+                System.out.println("Buscando minicursos...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.flush();
+            
             }
             cliente.close();
         } catch (Exception e) {

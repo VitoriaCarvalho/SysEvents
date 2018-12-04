@@ -69,4 +69,63 @@ public class MinicursosDAO {
         
         //codUltimoEventoInserido = "";
     }
+    
+    public String buscarMinicursoDeEvento(String codEvento) throws SQLException {
+        // Prepared statement para seleção
+        String sql = "select * from minicursos where codEvento = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        // Seta o valor da busca
+        stmt.setString(1, codEvento);
+        
+        // Executa a Query
+        ResultSet rs = stmt.executeQuery();
+        
+        // Extração dos dados resultantes da Query
+        
+        String result = "";
+        while(rs.next()) {
+            // Retorna o resultado da extração de dados da query
+            //codMinicurso,tituloMinicurso,dataMinicurso,horarioMinicurso,valorMinicurso,ministrante
+            
+            result += rs.getString("codMinicurso") + "," + rs.getString("tituloMinicurso") + "," + rs.getString("dataMinicurso") + "," + rs.getString("horarioMinicurso") + "," + rs.getString("valorMinicurso") + "," + rs.getString("ministrante") + "%";
+        }
+        System.out.println("Result Minicursos:: " + result);
+        
+        if(!(result.equals(""))) {
+            return result;
+        } else {
+            return "@";
+        }
+    }
+    
+    public String buscarMinicursosEscolhidos(String codInscricao, String cpfParticipante) throws SQLException {
+        // Prepared statement para seleção
+        String sql = "select tituloMinicurso, dataMinicurso from minicursos inner join (select codMinicurso from inscricao_minic_particip where codEvento = ? and cpfParticipante = ?) as imp on minicursos.codMinicurso = imp.codMinicurso";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        // Seta o valor da busca
+        stmt.setString(1, codInscricao);
+        stmt.setString(2, cpfParticipante);
+        
+        // Executa a Query
+        ResultSet rs = stmt.executeQuery();
+        
+        // Extração dos dados resultantes da Query
+        
+        String result = "";
+        while(rs.next()) {
+            // Retorna o resultado da extração de dados da query
+            //Vários: tituloMinicurso,dataMinicurso%
+            
+            result += rs.getString("tituloMinicurso") + "," + rs.getString("dataMinicurso") + "%";
+        }
+        System.out.println("Result Minicursos:: " + result);
+        
+        if(!(result.equals(""))) {
+            return result;
+        } else {
+            return "@";
+        }
+    }
 }

@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class TelaLogin extends javax.swing.JFrame {
     private static Socket socket;
+    public static String campoEmail;
 
     /**
      * Creates new form TelaLogin
@@ -173,6 +174,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 String aux = br.readLine(); //Retorna admin, user ou @ (nulo)
                 System.out.println("aux = " + aux);
                 if(!aux.equals("@")) {
+                    campoEmail = jTextField1.getText();
                     if(aux.equals("admin")) {
                         TelaHomeAdm ha = new TelaHomeAdm();
                         ha.setVisible(true);

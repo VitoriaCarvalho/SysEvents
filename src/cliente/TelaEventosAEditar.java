@@ -95,7 +95,7 @@ public class TelaEventosAEditar extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jLabel5.setText("Informe um código de evento para deletá-lo:");
+        jLabel5.setText("Informe um código de evento para editá-lo:");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-lápis-26.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {

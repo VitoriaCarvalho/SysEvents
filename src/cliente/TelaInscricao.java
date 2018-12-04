@@ -5,17 +5,68 @@
  */
 package cliente;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vitoria
  */
 public class TelaInscricao extends javax.swing.JFrame {
 
+    private static Socket socket;
     /**
      * Creates new form TelaInscricao
      */
     public TelaInscricao() {
         initComponents();
+        try{
+            InetAddress iAddress = InetAddress.getByName("localhost");
+            socket = new Socket(iAddress, 12345);
+            OutputStream os = socket.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+            bw.write("BuscarDadosMinhaInscricao>" + TelaMinhasInscricoes.campoCodEvento + "," + TelaLogin.campoEmail + "\n");
+            bw.flush();
+
+            InputStream is = socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String result = br.readLine(); //Retorna: codEvento,tituloEvento,dataEvento,descricao,nome,cpf,email,dataNasc
+            labelCpfInscricao.setText("");
+            labelDataNascInscricao.setText("");
+            labelEmailInscricao.setText("");
+            labelNomeInscricao.setText("");
+            labelTituloEventoInscricao.setText("");
+            labelDataEvento.setText("");
+            if(!result.equals("@")) {
+                String[] dados = result.split(",");
+                labelTituloEventoInscricao.setText(dados[1]);
+                labelDataEvento.setText(dados[2]);
+                textAreaDescricaoEvento.setText(dados[3]);
+                labelNomeInscricao.setText(dados[4]);
+                labelCpfInscricao.setText(dados[5]);
+                labelEmailInscricao.setText(dados[6]);
+                labelDataNascInscricao.setText(dados[7]);
+                this.descMinicursos(TelaMinhasInscricoes.campoCodEvento, labelCpfInscricao.getText());
+                result = null;
+            } else {
+                JOptionPane.showMessageDialog(null, "Código inexistente!");
+                TelaEventosDisponiveis ed = new TelaEventosDisponiveis();
+                this.setVisible(false);
+                ed.setVisible(true);
+            }
+        } catch (Exception ex){
+            System.out.println("HelloClient exception: "+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -29,21 +80,20 @@ public class TelaInscricao extends javax.swing.JFrame {
 
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaDescricaoEvento = new javax.swing.JTextArea();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        textAreaDescricaoEvento1 = new javax.swing.JTextArea();
+        textAreaMinicursosEscolhidos = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         labelTituloEventoInscricao = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        labelDataEvento = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         labelNomeInscricao = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -58,9 +108,8 @@ public class TelaInscricao extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Courier 10 Pitch", 1, 40)); // NOI18N
         jLabel2.setText("SysEvents");
 
-        jLabel1.setText("Usuário:");
-
-        jLabel3.setText("  ");
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLabel1.setText("Usuário");
 
         textAreaDescricaoEvento.setEditable(false);
         textAreaDescricaoEvento.setColumns(20);
@@ -73,13 +122,18 @@ public class TelaInscricao extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Courier 10 Pitch", 1, 18)); // NOI18N
         jLabel11.setText("MINICURSO(S) ESCOLHIDO(S)");
 
-        textAreaDescricaoEvento1.setEditable(false);
-        textAreaDescricaoEvento1.setColumns(20);
-        textAreaDescricaoEvento1.setRows(5);
-        jScrollPane2.setViewportView(textAreaDescricaoEvento1);
+        textAreaMinicursosEscolhidos.setEditable(false);
+        textAreaMinicursosEscolhidos.setColumns(20);
+        textAreaMinicursosEscolhidos.setRows(5);
+        jScrollPane2.setViewportView(textAreaMinicursosEscolhidos);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-sair-26.png"))); // NOI18N
         jButton3.setText("Voltar ao menu inicial");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Courier 10 Pitch", 1, 18)); // NOI18N
         jLabel9.setText("INSCRIÇÃO DO EVENTO:");
@@ -88,9 +142,9 @@ public class TelaInscricao extends javax.swing.JFrame {
         labelTituloEventoInscricao.setText("      ");
 
         jLabel12.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel12.setText("VALOR:");
+        jLabel12.setText("DATA:");
 
-        jLabel13.setText("          ");
+        labelDataEvento.setText("          ");
 
         jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel4.setText("Nome:");
@@ -120,12 +174,6 @@ public class TelaInscricao extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -136,7 +184,7 @@ public class TelaInscricao extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(4, 4, 4))
+                        .addGap(16, 16, 16))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jSeparator4)
@@ -147,7 +195,7 @@ public class TelaInscricao extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel12)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(labelDataEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
@@ -167,8 +215,12 @@ public class TelaInscricao extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(labelDataNascInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 13, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(51, 51, 51))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(256, 256, 256)
                 .addComponent(jButton3)
@@ -179,8 +231,7 @@ public class TelaInscricao extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -188,7 +239,7 @@ public class TelaInscricao extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(labelTituloEventoInscricao)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(labelDataEvento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -223,9 +274,48 @@ public class TelaInscricao extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        TelaHomeUsuario hu = new TelaHomeUsuario();
+        hu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    public void descMinicursos(String codIscricao, String cpfParticipante) {
+        try{
+            InetAddress iAddress = InetAddress.getByName("localhost");
+            socket = new Socket(iAddress, 12345);
+            OutputStream os = socket.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+            bw.write("BuscarDescMinicursos>" + codIscricao + "," + cpfParticipante + "\n");
+            bw.flush();
+
+            InputStream is = socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String result = br.readLine(); //Retorna vários: tituloMinicurso,dataMinicurso
+            textAreaMinicursosEscolhidos.setText("TÍTULO\tDATA\n");
+            if(!result.equals("@")) {
+                String[] dados = result.split("%");
+                for(String i: dados) {
+                    String[] minic = i.split(",");
+                    textAreaMinicursosEscolhidos.setText(textAreaMinicursosEscolhidos.getText() + (minic[0] + "\t" + minic[1] + "\n"));
+                }
+                result = null;
+            } else {
+                textAreaMinicursosEscolhidos.setText("Você não se inscreveu em minicursos deste evento!");
+            }
+        } catch (Exception ex){
+            System.out.println("HelloClient exception: "+ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -264,9 +354,7 @@ public class TelaInscricao extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -278,11 +366,12 @@ public class TelaInscricao extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JLabel labelCpfInscricao;
+    private javax.swing.JLabel labelDataEvento;
     private javax.swing.JLabel labelDataNascInscricao;
     private javax.swing.JLabel labelEmailInscricao;
     private javax.swing.JLabel labelNomeInscricao;
     private javax.swing.JLabel labelTituloEventoInscricao;
     private javax.swing.JTextArea textAreaDescricaoEvento;
-    private javax.swing.JTextArea textAreaDescricaoEvento1;
+    private javax.swing.JTextArea textAreaMinicursosEscolhidos;
     // End of variables declaration//GEN-END:variables
 }

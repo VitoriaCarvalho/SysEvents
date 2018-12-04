@@ -99,4 +99,28 @@ public class UsuariosDAO {
         stmt.close();
     }
     
+    public String buscarDadosParaInscricao(String email) throws SQLException {
+        // Prepared statement para seleção
+        String sql = "select * from usuarios where email = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        // Seta o valor da busca
+        stmt.setString(1, email);
+        
+        // Executa a Query
+        ResultSet rs = stmt.executeQuery();
+        
+        // Extração dos dados resultantes da Query
+        boolean first = rs.first();
+        System.out.println("Chegou em UsuariosDAO");
+        
+        if (first) {
+            // Retorna o resultado da extração de dados da query
+            //nome,cpf,email,dataNasc
+            String result = rs.getString("nome") + "," + rs.getString("cpf") + "," + rs.getString("email") + "," + rs.getString("dataNasc");
+            return result;
+        } else {
+            return null;
+        }
+    }
 }

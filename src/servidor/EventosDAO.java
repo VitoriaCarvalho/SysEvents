@@ -140,4 +140,50 @@ public class EventosDAO {
         if (executeUpdate == 0) return "false";
         else return "true";
     }
+    
+    public String buscarUmEvento(String codEvento) throws SQLException {
+        // Prepared statement para seleção
+        String sql = "select * from eventos where codEvento = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        stmt.setString(1, codEvento);
+        
+        // Executa a Query
+        ResultSet rs = stmt.executeQuery();
+        
+        // Extração dos dados resultantes da Query
+        boolean first = rs.first();
+        
+        if (first) {
+            // Retorna o resultado da extração de dados da query
+            return rs.getString("codEvento") + "," + rs.getString("titulo") + "," + rs.getString("dataEvento") + "," + rs.getString("valorInscricao") + "," + rs.getString("descricao");
+        } else {
+            return null;
+        }
+    }
+    
+    public String buscarDadosEventoUsuario(String dados) throws SQLException {
+    
+        UsuariosDAO ud = new UsuariosDAO();
+        String dataUser = ud.buscarDadosParaInscricao(dados.split(",")[1]);
+        // Prepared statement para seleção
+        String sql = "select * from eventos where codEvento = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        stmt.setString(1, dados.split(",")[0]);
+        
+        // Executa a Query
+        ResultSet rs = stmt.executeQuery();
+        System.out.println("Chegou em EventosDAO");
+        
+        // Extração dos dados resultantes da Query
+        boolean first = rs.first();
+        
+        if (first) {
+            // Retorna o resultado da extração de dados da query
+            return rs.getString("titulo") + "," +  rs.getString("valorInscricao") + "," + dataUser;
+        } else {
+            return null;
+        }
+    }
 }
