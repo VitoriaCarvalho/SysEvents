@@ -29,9 +29,10 @@ public class InscricoesDAO {
         // Prepared statement para seleção
         //SELECT * FROM table1 INNER JOIN table2 ON table1.id = table2.id;
         //cpf,nome,endereco, email
-        String sql = "select cpf, nome, endereco, email from usuarios inner join inscricoes on usuarios.cpf = inscricoes.cpfParticipante";
+        String sql = "select cpf, nome, endereco, email from usuarios inner join inscricoes on usuarios.cpf = inscricoes.cpfParticipante where codEvento = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         
+        stmt.setString(1, codEvento);
         // Executa a Query
         ResultSet rs = stmt.executeQuery();
         String result = "";

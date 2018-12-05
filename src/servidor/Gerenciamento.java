@@ -56,15 +56,18 @@ public class Gerenciamento {
     }
     
     public void CadastrarEvento(String texto) throws IOException, SQLException {
-        //texto = Vitória,05173598395,29/11/1998,vitoriiacb@gmail.com,123,Campo Grande
         EventosDAO eventosDAO = new EventosDAO();
         eventosDAO.adicionarEvento(texto);
     }
     
-    public void CadastrarMinicurso(String texto) throws IOException, SQLException {
-        //texto = Vitória,05173598395,29/11/1998,vitoriiacb@gmail.com,123,Campo Grande
+    public String CadastrarMinicurso(String texto) throws IOException, SQLException {
         MinicursosDAO minicursoDAO = new MinicursosDAO();
-        minicursoDAO.adicionarMinicurso(texto);
+        String result = minicursoDAO.adicionarMinicurso(texto);
+        if(result != null) {
+            return result + "\n";
+        } else {
+            return "@\n";
+        }
     }
     
     public String BuscarEventos() throws IOException, SQLException {

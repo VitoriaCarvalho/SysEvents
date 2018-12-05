@@ -231,12 +231,15 @@ public class TelaCadastrarEvento extends javax.swing.JFrame {
         }
         int qtdMinicursos = 0;
         if(resposta.equals("1")) {
-            String resposta2 = JOptionPane.showInputDialog("Digite a quantidade de minicursos que deseja adicionar:");
-            qtdMinicursos = Integer.parseInt(resposta2);
-            while(qtdMinicursos <= 0) {
-                resposta2 = JOptionPane.showInputDialog("Digite a quantidade de minicursos que deseja adicionar:");
-                qtdMinicursos = Integer.parseInt(resposta2);
-            }
+//            String resposta2 = JOptionPane.showInputDialog("Digite a quantidade de minicursos que deseja adicionar:");
+//            qtdMinicursos = Integer.parseInt(resposta2);
+//            while(qtdMinicursos <= 0) {
+//                resposta2 = JOptionPane.showInputDialog("Digite a quantidade de minicursos que deseja adicionar:");
+//                qtdMinicursos = Integer.parseInt(resposta2);
+//            }
+            TelaCadastrarMinicurso tm = new TelaCadastrarMinicurso();
+            tm.setVisible(true);
+            setVisible(false);
         } else {
             JOptionPane.showMessageDialog(null, "Evento cadastrado! Você não adicionou minicursos.");
             setVisible(false);
@@ -244,14 +247,26 @@ public class TelaCadastrarEvento extends javax.swing.JFrame {
         }
         
         //Laço para instanciar a tela de minicursos qtdMinicursos vezes.
-        sinal = 0;
-        while(qtdMinicursos > 0) {
-            TelaCadastrarMinicurso cm = new TelaCadastrarMinicurso();
-            setVisible(false);
-            cm.setVisible(true);
-            qtdMinicursos--;
-        }
-        sinal = 1;
+        sinal = 0; //para identificar que já foram adicionados todos os minicursos desejados;
+//        while(qtdMinicursos > 0) {
+//            TelaCadastrarMinicurso cm = new TelaCadastrarMinicurso();
+//            setVisible(false);
+//            cm.setVisible(true);
+//            qtdMinicursos--;
+//        }     
+//        System.out.println("Qtd de minicursos: " + qtdMinicursos);
+//        for(int i = 0; i < qtdMinicursos; i++) {
+//            TelaCadastrarMinicurso cm = new TelaCadastrarMinicurso();
+//            setVisible(false);
+//            cm.setVisible(true);
+//            if(i == (qtdMinicursos-1)) sinal = 1;
+//        }
+//        if(sinal == 1) {
+//            JOptionPane.showMessageDialog(null, "Evento cadastrado!");
+//            TelaHomeAdm ha = new TelaHomeAdm();
+//            ha.setVisible(true);
+//            this.setVisible(false);
+//        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

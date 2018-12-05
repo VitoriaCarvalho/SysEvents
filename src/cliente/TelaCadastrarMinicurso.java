@@ -5,7 +5,10 @@
  */
 package cliente;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
@@ -49,6 +52,7 @@ public class TelaCadastrarMinicurso extends javax.swing.JFrame {
         inputHorario = new javax.swing.JTextField();
         inputValor = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,10 +82,18 @@ public class TelaCadastrarMinicurso extends javax.swing.JFrame {
         });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-selecionado-26.png"))); // NOI18N
-        jButton1.setText("Salvar");
+        jButton1.setText("Salvar minicurso");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cliente/icons8-selecionado-26.png"))); // NOI18N
+        jButton2.setText("Finalizar inscrição");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -102,24 +114,26 @@ public class TelaCadastrarMinicurso extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 168, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7))
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(inputValor, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputMinistrante, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel9)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(126, 126, 126)
-                                .addComponent(jButton1)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButton1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel8)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel7))
+                                    .addGap(27, 27, 27)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(inputValor, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(inputHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(inputData, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(inputTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(inputMinistrante, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(180, 180, 180))))
         );
         layout.setVerticalGroup(
@@ -151,7 +165,9 @@ public class TelaCadastrarMinicurso extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(inputValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addGap(0, 15, Short.MAX_VALUE))
         );
 
@@ -171,7 +187,20 @@ public class TelaCadastrarMinicurso extends javax.swing.JFrame {
                 BufferedWriter bw = new BufferedWriter(osw);
                 bw.write("CadMinicurso>"+inputTitulo.getText()+","+inputData.getText()+","+inputHorario.getText()+","+inputValor.getText()+","+inputMinistrante.getText()+"\n");
                 bw.flush();
-                JOptionPane.showMessageDialog(null, "Minicurso " + inputTitulo.getText() + " cadastrado!");
+                
+                InputStream is = socket.getInputStream();
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
+                String result = br.readLine();
+                if(!result.equals("@")) {
+                    if(result.equals("true")) {
+                        JOptionPane.showMessageDialog(null, "Minicurso " + inputTitulo.getText() + " cadastrado!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Erro ao adicionar minicurso!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro ao adicionar minicurso!");
+                }
             } catch (Exception ex){
                 JOptionPane.showMessageDialog(null,"Cadastro mal sucedido!");
                 System.out.println("HelloClient exception: "+ex.getMessage());
@@ -182,18 +211,34 @@ public class TelaCadastrarMinicurso extends javax.swing.JFrame {
             inputMinistrante.setText("");
             inputTitulo.setText("");
             inputValor.setText("");
-            JOptionPane.showMessageDialog(null, "Evento cadastrado!");
-            if(TelaCadastrarEvento.sinal == 1) {
-                TelaCadastrarEvento tc = new TelaCadastrarEvento();
-                tc.setVisible(true);
-                setVisible(false);
-            }
+//            
+//            if(TelaCadastrarEvento.sinal == 1) {
+//                TelaCadastrarEvento tc = new TelaCadastrarEvento();
+//                tc.setVisible(true);
+//                setVisible(false);
+//            }
+//            if(TelaCadastrarEvento.sinal == 1) {
+//                JOptionPane.showMessageDialog(null, "Evento cadastrado!");
+//                TelaHomeAdm ha = new TelaHomeAdm();
+//                ha.setVisible(true);
+//                this.setVisible(false);
+//            } else {
+//                this.setVisible(false);
+//            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void inputTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTituloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputTituloActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // FINALIZAR INSCRIÇÃO
+        JOptionPane.showMessageDialog(null, "Evento cadastrado!");
+        TelaHomeAdm ha = new TelaHomeAdm();
+        ha.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,6 +285,7 @@ public class TelaCadastrarMinicurso extends javax.swing.JFrame {
     private javax.swing.JTextField inputTitulo;
     private javax.swing.JTextField inputValor;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

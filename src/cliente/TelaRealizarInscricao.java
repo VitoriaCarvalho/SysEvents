@@ -338,7 +338,7 @@ public class TelaRealizarInscricao extends javax.swing.JFrame {
     }//GEN-LAST:event_inputCodMinicursoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // ADICIONAR MINICURSO
         if(inputCodMinicurso.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Digite um código válido para inserir um minicurso à sua inscrição!");
         } else {

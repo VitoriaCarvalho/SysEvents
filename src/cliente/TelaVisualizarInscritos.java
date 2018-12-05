@@ -38,7 +38,7 @@ public class TelaVisualizarInscritos extends javax.swing.JFrame {
             InputStream is = socket.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
-            String result = br.readLine(); //Retorna os inscritos, ex: cpf,nome,endereco, email%...%\n
+            String result = br.readLine(); //Retorna os inscritos de um evento específico, ex: cpf,nome,endereco, email%...%\n
             jTextArea1.setText("");
             if(!result.equals("@")) {
                 jTextArea1.setText(String.format("%-35s", "CPF") + String.format("%-35s", "NOME") + String.format("%-35s", "ENDEREÇO") + String.format("%-35s", "EMAIL") + "\n");

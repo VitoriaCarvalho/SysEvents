@@ -94,14 +94,60 @@ public class EventosDAO {
         stmt.setString(1, codEvento);
         
         // Executa a Query
-        int executeUpdate = stmt.executeUpdate();
+        boolean resultDelete = stmt.execute();
+        if(resultDelete) {
+            return "false";
+        } else {
+            return "true";
+        }
+//        int executeUpdate = stmt.executeUpdate();
+//        
+//        if (executeUpdate == 0) return "false";
+//        else return "true";
+    }
+    
+    public String excluirInscricoes(String codEvento) throws SQLException {
+        // Prepared statement para a exclusão
+        String sql = "delete from inscricoes where codEvento = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
         
-        if (executeUpdate == 0) return "false";
-        else return "true";
+        stmt.setString(1, codEvento);
+        
+        // Executa a Query
+        boolean resultDelete = stmt.execute();
+        if(resultDelete) {
+            return "false";
+        } else {
+            return "true";
+        }
+//        int executeUpdate = stmt.executeUpdate();
+//        
+//        if (executeUpdate == 0) return "false";
+//        else return "true";
+    }
+    
+    public String excluirInscricaoMinicurso(String codEvento) throws SQLException {
+        // Prepared statement para a exclusão
+        String sql = "delete from inscricao_minic_particip where codEvento = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        
+        stmt.setString(1, codEvento);
+        
+        // Executa a Query
+        boolean resultDelete = stmt.execute();
+        if(resultDelete) {
+            return "false";
+        } else {
+            return "true";
+        }
+//        int executeUpdate = stmt.executeUpdate();
+//        
+//        if (executeUpdate == 0) return "false";
+//        else return "true";
     }
     
     public String excluirEvento(String codEvento) throws SQLException {
-        if(excluirMinicursos(codEvento).equals("true")) {
+        if((excluirInscricaoMinicurso(codEvento).equals("true")) && (excluirMinicursos(codEvento).equals("true")) && excluirInscricoes(codEvento).equals("true")) {
             // Prepared statement para a exclusão
             String sql = "delete from eventos where codEvento = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);

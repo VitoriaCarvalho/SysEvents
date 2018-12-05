@@ -44,7 +44,7 @@ public class MinicursosDAO {
         return codigo+"";
     }
     
-    public void adicionarMinicurso(String dados) throws SQLException {
+    public String adicionarMinicurso(String dados) throws SQLException {
         // Prepared statement para inserção
         //Redes Neurais Artificiais,20/12/2018,14:00,25.90,Alguém
         String sql = "insert into minicursos (codMinicurso, codEvento, tituloMinicurso, dataMinicurso, horarioMinicurso, valorMinicurso, ministrante) values (?,?,?,?,?,?,?)";
@@ -64,8 +64,13 @@ public class MinicursosDAO {
         stmt.setString(7, infoProduto[4]);
 
         // Executa
-        stmt.execute();
+        boolean resultExecute = stmt.execute();
         stmt.close();
+        if(resultExecute) {
+            return "false";
+        } else {
+            return "true";
+        }
         
         //codUltimoEventoInserido = "";
     }

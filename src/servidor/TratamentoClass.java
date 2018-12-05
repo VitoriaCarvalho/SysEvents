@@ -64,8 +64,14 @@ public class TratamentoClass implements Runnable {
                 System.out.println("Cadastrando um novo evento...");
             
             } else if(dados.split(">")[0].equals("CadMinicurso")) {
-                g.CadastrarMinicurso(dados.split(">")[1]);
+                returnMessage = g.CadastrarMinicurso(dados.split(">")[1]);
                 System.out.println("Cadastrando um novo minicurso...");
+                OutputStream os = cliente.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+                bw.write(returnMessage);
+                System.out.println("ReturnMessage:: " + returnMessage);
+                bw.flush();
             
             } else if(dados.equals("BuscarEventos")) {
                 returnMessage = g.BuscarEventos();
