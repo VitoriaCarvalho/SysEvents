@@ -38,7 +38,7 @@ CREATE TABLE `eventos` (
 
 LOCK TABLES `eventos` WRITE;
 /*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
-INSERT INTO `eventos` VALUES ('1201','Geek day','10/10/2018','15.90','Um evento bem legal'),('7548','Dia do esporte','10/12/2018','35','uhwdeygwhvdhveygcedhb');
+INSERT INTO `eventos` VALUES ('0101','Teste','10/10/2019','25','Evento teste'),('1201','Geek day','10/10/2018','15.90','Um evento bem legal'),('7548','Dia do esporte','10/12/2018','50','Evento de esporte'),('9596','SINFO','10/10/2018','15','Simpósio de Sistemas de Informação');
 /*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +68,7 @@ CREATE TABLE `inscricao_minic_particip` (
 
 LOCK TABLES `inscricao_minic_particip` WRITE;
 /*!40000 ALTER TABLE `inscricao_minic_particip` DISABLE KEYS */;
-INSERT INTO `inscricao_minic_particip` VALUES ('1201','100','05173598395'),('1201','100','12345'),('7548','3096','11111111111');
+INSERT INTO `inscricao_minic_particip` VALUES ('7548','3096','11111111111');
 /*!40000 ALTER TABLE `inscricao_minic_particip` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +128,7 @@ CREATE TABLE `minicursos` (
 
 LOCK TABLES `minicursos` WRITE;
 /*!40000 ALTER TABLE `minicursos` DISABLE KEYS */;
-INSERT INTO `minicursos` VALUES ('100','1201','Programação Funcional','12/12/2018','12:00','12','Pedro'),('3096','7548','9','9','9','9','9');
+INSERT INTO `minicursos` VALUES ('100','1201','Programação Funcional','12/12/2018','12:00','12','Pedro'),('3096','7548','9','9','9','9','9'),('8851','9596','Python para iniciantes','10/10/2018','14:00','10','Hélio Gás');
 /*!40000 ALTER TABLE `minicursos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +156,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES ('Vitória','05173598395','29/11/1998','vitoriiacb@gmail.com','123','Campo Grande'),('Joãozinho','11111111111','10/10/2010','joaozinho@gmail.com','123','Picos - PI'),('Ruthe','12345','26/09/2000','ruthe@gmail.com','123','Campo Grande - PI'),('Administrador','12345678910','01/01/1980','admin@gmail.com','123','Picos');
+INSERT INTO `usuarios` VALUES ('Vitória','05173598395','29/11/1998','vitoriiacb@gmail.com','123','Campo Grande'),('Joãozinho','11111111111','10/12/2002','joaozinho@gmail.com','123','THE'),('Ruthe','12345','26/09/2000','ruthe@gmail.com','123','Campo Grande - PI'),('Administrador','12345678910','01/01/1980','admin@gmail.com','123','Picos');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -169,4 +169,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-04 15:46:50
+-- Dump completed on 2018-12-05 14:55:50
